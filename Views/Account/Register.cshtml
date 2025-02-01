@@ -1,27 +1,33 @@
 ﻿@model RezervacijaSmjestaja.Models.Korisnik
 
-<h2>Registracija</h2>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow" style="width: 350px;">
+        <h2 class="text-center mb-4">Registracija</h2>
 
-<form asp-action="Register">
-    <div>
-        <label asp-for="Ime"></label>
-        <input asp-for="Ime" />
-        <span asp-validation-for="Ime"></span>
+        <form asp-action="Register">
+            <div class="mb-3">
+                <label asp-for="Ime" class="form-label"></label>
+                <input asp-for="Ime" class="form-control" />
+                <span asp-validation-for="Ime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Prezime" class="form-label"></label>
+                <input asp-for="Prezime" class="form-control" />
+                <span asp-validation-for="Prezime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Lozinka" class="form-label"></label>
+                <input asp-for="Lozinka" type="password" class="form-control" />
+                <span asp-validation-for="Lozinka" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Registriraj se</button>
+        </form>
+
+        <p class="text-center mt-3">Već imate račun? <a asp-action="Login">Prijavite se</a></p>
     </div>
-    <div>
-        <label asp-for="Prezime"></label>
-        <input asp-for="Prezime" />
-        <span asp-validation-for="Prezime"></span>
-    </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label asp-for="Lozinka"></label>
-        <input asp-for="Lozinka" type="password" />
-        <span asp-validation-for="Lozinka"></span>
-    </div>
-    <button type="submit">Registriraj se</button>
-</form>
+</div>
