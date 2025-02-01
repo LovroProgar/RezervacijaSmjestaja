@@ -1,0 +1,27 @@
+﻿@model RezervacijaSmjestaja.Models.Korisnik
+
+<h2>Registracija</h2>
+
+<form asp-action="Register">
+    <div>
+        <label asp-for="Ime"></label>
+        <input asp-for="Ime" />
+        <span asp-validation-for="Ime"></span>
+    </div>
+    <div>
+        <label asp-for="Prezime"></label>
+        <input asp-for="Prezime" />
+        <span asp-validation-for="Prezime"></span>
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Lozinka"></label>
+        <input asp-for="Lozinka" type="password" />
+        <span asp-validation-for="Lozinka"></span>
+    </div>
+    <button type="submit">Registriraj se</button>
+</form>
