@@ -1,15 +1,21 @@
 ﻿@model RezervacijaSmjestaja.Models.Korisnik
 
-<h2>Prijava</h2>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow" style="width: 350px;">
+        <h2 class="text-center mb-4">Prijava</h2>
 
-<form asp-action="Login">
-    <div>
-        <label>Email</label>
-        <input name="email" />
+        <form asp-action="Login">
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input name="email" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Lozinka</label>
+                <input name="lozinka" type="password" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-success w-100">Prijavi se</button>
+        </form>
+
+        <p class="text-center mt-3">Nemate račun? <a asp-action="Register">Registrirajte se</a></p>
     </div>
-    <div>
-        <label>Lozinka</label>
-        <input name="lozinka" type="password" />
-    </div>
-    <button type="submit">Prijavi se</button>
-</form>
+</div>
