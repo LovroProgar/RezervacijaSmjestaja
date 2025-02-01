@@ -20,9 +20,11 @@ namespace RezervacijaSmjestaja.Models
         public Smjestaj Smjestaj { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DatumOd { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DatumDo { get; set; }
     }
 }

@@ -15,9 +15,10 @@ namespace RezervacijaSmjestaja.Controllers
 
         public IActionResult Index()
         {
-            var smjestaji = _context.Smjestaji.ToList();
-            return View(smjestaji);
+            var smjestaji = _context.Smjestaji.ToList(); // Dohvati sve smještaje iz baze
+            return View(smjestaji); // Proslijedi ih u View
         }
+
 
         public IActionResult Detalji(int id)
         {

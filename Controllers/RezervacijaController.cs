@@ -57,16 +57,13 @@ namespace RezervacijaSmjestaja.Controllers
         // Prikazuje sve rezervacije prijavljenog korisnika
         public IActionResult MojeRezervacije()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null) return RedirectToAction("Login", "Account");
-
-            int korisnikId = int.Parse(userId);
+            // Učitavanje svih rezervacija iz baze
             var rezervacije = _context.Rezervacije
-                .Include(r => r.Smjestaj)
-                .Where(r => r.KorisnikId == korisnikId)
-                .ToList();
+                .Include(r => r.Smjestaj) // Učitaj podatke o smještaju
+                .ToList(); // Preuzmi sve
 
-            return View(rezervacije); // Prikazuje "MojeRezervacije.cshtml"
+            return View(rezervacije); // Vrati ih u view
         }
+
     }
 }

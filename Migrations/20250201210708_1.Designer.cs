@@ -12,8 +12,8 @@ using RezervacijaSmjestaja.Data;
 namespace RezervacijaSmjestaja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250201191318_1221")]
-    partial class _1221
+    [Migration("20250201210708_1")]
+    partial class _1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,11 +96,13 @@ namespace RezervacijaSmjestaja.Migrations
 
                     b.Property<string>("Naziv")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Opis")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("SlikaUrl")
                         .IsRequired()
@@ -147,7 +149,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 5,
                             CijenaPoNoci = 80m,
-                            Naziv = "Apartman Val",
+                            Naziv = "Seoska Kuća",
                             Opis = "Mirno mjesto za odmor",
                             SlikaUrl = "/pictures/5.jpg"
                         },
@@ -155,7 +157,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 6,
                             CijenaPoNoci = 200m,
-                            Naziv = "Villa Sopranos",
+                            Naziv = "Beach House",
                             Opis = "Kuća na plaži s pogledom",
                             SlikaUrl = "/pictures/6.jpg"
                         });

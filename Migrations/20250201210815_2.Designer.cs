@@ -12,8 +12,8 @@ using RezervacijaSmjestaja.Data;
 namespace RezervacijaSmjestaja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250201181350_aaaaa")]
-    partial class aaaaa
+    [Migration("20250201210815_2")]
+    partial class _2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,11 +96,13 @@ namespace RezervacijaSmjestaja.Migrations
 
                     b.Property<string>("Naziv")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Opis")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("SlikaUrl")
                         .IsRequired()
@@ -117,7 +119,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 120m,
                             Naziv = "Hotel Blue Lagoon",
                             Opis = "Luksuzan hotel uz obalu",
-                            SlikaUrl = "https://www.cimerfraj.hr/slike/zajednica/fotografije-koje-prodaju-smjestaj-anja-sibenik-2.jpg"
+                            SlikaUrl = "/pictures/1.jpg"
                         },
                         new
                         {
@@ -125,7 +127,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 250m,
                             Naziv = "Villa Sun",
                             Opis = "Privatna vila s bazenom",
-                            SlikaUrl = "https://source.unsplash.com/400x300/?villa"
+                            SlikaUrl = "/pictures/2.jpg"
                         },
                         new
                         {
@@ -133,7 +135,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 180m,
                             Naziv = "Mountain Resort",
                             Opis = "Odmaralište u planinama",
-                            SlikaUrl = "https://source.unsplash.com/400x300/?resort"
+                            SlikaUrl = "/pictures/3.jpg"
                         },
                         new
                         {
@@ -141,7 +143,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 100m,
                             Naziv = "Apartman Deluxe",
                             Opis = "Moderan apartman u centru",
-                            SlikaUrl = "https://source.unsplash.com/400x300/?apartment"
+                            SlikaUrl = "/pictures/4.jpg"
                         },
                         new
                         {
@@ -149,7 +151,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 80m,
                             Naziv = "Seoska Kuća",
                             Opis = "Mirno mjesto za odmor",
-                            SlikaUrl = "https://source.unsplash.com/400x300/?cottage"
+                            SlikaUrl = "/pictures/5.jpg"
                         },
                         new
                         {
@@ -157,7 +159,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 200m,
                             Naziv = "Beach House",
                             Opis = "Kuća na plaži s pogledom",
-                            SlikaUrl = "https://source.unsplash.com/400x300/?beach"
+                            SlikaUrl = "/pictures/6.jpg"
                         });
                 });
 
