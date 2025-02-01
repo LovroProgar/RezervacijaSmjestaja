@@ -1,0 +1,25 @@
+﻿@model IEnumerable<RezervacijaSmjestaja.Models.Rezervacija>
+
+<h2 class="text-center mb-4">Moje rezervacije</h2>
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var rezervacija in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <img src="@rezervacija.Smjestaj.SlikaUrl" class="card-img-top" alt="Smještaj">
+                    <div class="card-body">
+                        <h5 class="card-title">@rezervacija.Smjestaj.Naziv</h5>
+                        <p class="card-text text-muted">@rezervacija.Smjestaj.Opis</p>
+                        <p class="fw-bold">📍 Lokacija: @rezervacija.Smjestaj.Naziv</p>
+                        <p class="fw-bold">Cijena: @rezervacija.Smjestaj.CijenaPoNoci € / noć</p>
+                        <p><strong>Datum od:</strong> @rezervacija.DatumOd.ToString("yyyy-MM-dd")</p>
+                        <p><strong>Datum do:</strong> @rezervacija.DatumDo.ToString("yyyy-MM-dd")</p>
+                        <a href="@Url.Action("Uredi", "Rezervacija", new { id = rezervacija.Id })" class="btn btn-warning">Uredi</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
