@@ -1,0 +1,17 @@
+﻿@model IEnumerable<RezervacijaSmjestaja.Models.Smjestaj>
+
+<h2 class="text-center">Ponuđeni smještaji</h2>
+
+<div class="container d-flex flex-wrap justify-content-center">
+    @foreach (var smjestaj in Model)
+    {
+        <div class="card m-2" style="width: 18rem;">
+            <img src="@smjestaj.SlikaUrl" class="card-img-top" alt="Smještaj">
+            <div class="card-body text-center">
+                <h5 class="card-title">@smjestaj.Naziv</h5>
+                <p class="card-text">@smjestaj.Opis</p>
+                <a asp-action="Detalji" asp-route-id="@smjestaj.Id" class="btn btn-primary">Pregledaj</a>
+            </div>
+        </div>
+    }
+</div>

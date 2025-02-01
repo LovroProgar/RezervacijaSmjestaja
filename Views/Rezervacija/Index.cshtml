@@ -1,0 +1,29 @@
+﻿@model RezervacijaSmjestaja.Models.Rezervacija
+
+@{
+    ViewData["Title"] = "Rezervacija smještaja";
+}
+
+<h2 class="text-center">Rezervacija smještaja</h2>
+
+<div class="container">
+    <h4>Smještaj: @Model.Smjestaj.Naziv</h4>
+    <p><strong>Opis:</strong> @Model.Smjestaj.Opis</p>
+    <img src="@Model.Smjestaj.SlikaUrl" alt="@Model.Smjestaj.Naziv" class="img-fluid" />
+
+    <form asp-action="Rezervisi" method="post">
+        <input type="hidden" asp-for="SmjestajId" />
+
+        <div class="form-group">
+            <label for="DatumOd">Datum od</label>
+            <input type="date" class="form-control" id="DatumOd" name="DatumOd" required />
+        </div>
+
+        <div class="form-group">
+            <label for="DatumDo">Datum do</label>
+            <input type="date" class="form-control" id="DatumDo" name="DatumDo" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Rezerviraj</button>
+    </form>
+</div>
