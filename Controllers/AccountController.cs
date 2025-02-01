@@ -13,6 +13,13 @@ namespace RezervacijaSmjestaja.Controllers
             _context = context;
         }
 
+        public IActionResult Logout()
+        {
+            // Brišemo sesiju i cookies koji sadrže informacije o prijavljenom korisniku
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "Account"); // Preusmjeravamo korisnika na login stranicu
+        }
+
         // GET: Account/Register
         public IActionResult Register()
         {
@@ -31,7 +38,6 @@ namespace RezervacijaSmjestaja.Controllers
             return View(korisnik);
         }
 
-
         // GET: Account/Login
         public IActionResult Login()
         {
@@ -46,11 +52,10 @@ namespace RezervacijaSmjestaja.Controllers
             if (korisnik != null)
             {
                 HttpContext.Session.SetString("UserEmail", korisnik.Email);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Smjestaj");
             }
             ModelState.AddModelError("", "Neispravni podaci za prijavu.");
             return View();
         }
-
     }
 }

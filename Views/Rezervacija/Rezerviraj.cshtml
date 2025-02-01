@@ -1,0 +1,53 @@
+﻿@model RezervacijaSmjestaja.Models.Rezervacija
+
+@{
+    ViewData["Title"] = "Rezervacija smještaja";
+}
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="width: 400px;">
+        <h2 class="text-center mb-4">Rezervacija</h2>
+
+        @if (TempData["Uspjeh"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Uspjeh"]
+            </div>
+        }
+
+        <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded mb-3" alt="Slika smještaja">
+
+        <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
+        <p class="text-center text-muted">@Model.Smjestaj.Opis</p>
+        <p class="text-center"><strong>Cijena po noći:</strong> @Model.Smjestaj.CijenaPoNoci €</p>
+
+        <form asp-action="PotvrdiRezervaciju" method="post">
+            <input type="hidden" asp-for="SmjestajId" />
+
+            <div class="mb-3">
+                <label asp-for="DatumOd" class="form-label">Datum od</label>
+                <input asp-for="DatumOd" type="date" class="form-control" required id="datumOd" value="2025-01-01" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DatumDo" class="form-label">Datum do</label>
+                <input asp-for="DatumDo" type="date" class="form-control" required id="datumDo" value="2025-01-01" />
+            </div>
+
+            <a asp-controller="Rezervacija" asp-action="MojeRezervacije" class="btn btn-success w-100">Potvrdi Rezervaciju</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Dohvaćanje trenutnog datuma u formatu yyyy-mm-dd
+    var today = new Date().toISOString().split('T')[0];
+
+    // Postavljanje minimalnog datuma na trenutni datum
+    document.getElementById("datumOd").setAttribute("min", today);
+    document.getElementById("datumDo").setAttribute("min", today);
+
+    // Ovdje postavljamo minimalni datum na 1.1.2025. ako želimo ograničiti na godinu 2025 i kasnije
+    document.getElementById("datumOd").setAttribute("min", "2025-01-01");
+    document.getElementById("datumDo").setAttribute("min", "2025-01-01");
+</script>
