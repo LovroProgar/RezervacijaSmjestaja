@@ -12,11 +12,11 @@
                     <div class="card-body">
                         <h5 class="card-title">@rezervacija.Smjestaj.Naziv</h5>
                         <p class="card-text text-muted">@rezervacija.Smjestaj.Opis</p>
-                        <p class="fw-bold">📍 Lokacija: @rezervacija.Smjestaj.Naziv</p>
-                        <p class="fw-bold">Cijena: @rezervacija.Smjestaj.CijenaPoNoci € / noć</p>
-                        <p><strong>Datum od:</strong> @rezervacija.DatumOd.ToString("yyyy-MM-dd")</p>
-                        <p><strong>Datum do:</strong> @rezervacija.DatumDo.ToString("yyyy-MM-dd")</p>
-                        <a href="@Url.Action("Uredi", "Rezervacija", new { id = rezervacija.Id })" class="btn btn-warning">Uredi</a>
+                        <p class="fw-bold">📍 Lokacija:</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-success fw-bold">@rezervacija.Smjestaj.CijenaPoNoci € / noć</span>
+                            <a href="@Url.Action("Uredi", "Rezervacija", new { id = rezervacija.Id })" class="btn btn-warning">Uredi</a>
+                        </div>
                     </div>
                 </div>
             </div>

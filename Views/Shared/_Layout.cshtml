@@ -17,24 +17,21 @@
                 <a class="navbar-brand" asp-area="" asp-controller="Smjestaj" asp-action="Index">RezervacijaSmjestaja</a>
 
                 <!-- Pored: Naslovna i Moje rezervacije s minimalnim razmakom -->
-                @if (ViewData["Title"]?.ToString() != "Login" && ViewData["Title"]?.ToString() != "Register")
-                {
-                    <ul class="navbar-nav ms-3">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Smjestaj" asp-action="Index">Naslovna</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Rezervacija" asp-action="MojeRezervacije">Moje rezervacije</a>
-                        </li>
-                    </ul>
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Smjestaj" asp-action="Index">Naslovna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Rezervacija" asp-action="MojeRezervacije">Moje rezervacije</a>
+                    </li>
+                </ul>
 
-                    <!-- Skroz desno: Odjava -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Odjava</a>
-                        </li>
-                    </ul>
-                }
+                <!-- Skroz desno: Odjava -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" asp-controller="Account" asp-action="Logout">Odjava</a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>

@@ -18,5 +18,7 @@ namespace RezervacijaSmjestaja.Models
 
         [Required]
         public decimal CijenaPoNoci { get; set; }
+
+        
     }
 }
