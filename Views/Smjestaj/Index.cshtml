@@ -1,9 +1,11 @@
-﻿@model IEnumerable<RezervacijaSmjestaja.Models.Smjestaj>
-
-<h2 class="text-center mb-4">Ponuđeni smještaji</h2>
-
+﻿
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
+        @{
+            // Lista unaprijed definiranih lokacija
+            var lokacije = new List<string> { "Zagreb", "Split", "Rijeka", "Osijek", "Dubrovnik", "Pula", "Zadar", "Šibenik", "Varaždin", "Karlovac" };
+            var lokacijaIndex = 0;
+        }
         @foreach (var smjestaj in Model)
         {
             <div class="col">
@@ -12,7 +14,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@smjestaj.Naziv</h5>
                         <p class="card-text text-muted">@smjestaj.Opis</p>
-                        <p class="fw-bold">📍 Lokacija: </p>
+                        <p class="fw-bold">📍 Lokacija: @lokacije[lokacijaIndex]</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-success fw-bold">@smjestaj.CijenaPoNoci € / noć</span>
                             <a asp-controller="Rezervacija" asp-action="Rezerviraj" asp-route-smjestajId="@smjestaj.Id" class="btn btn-success">Rezerviraj</a>
@@ -20,6 +22,14 @@
                     </div>
                 </div>
             </div>
+                            // Povećava index lokacije za sljedeći element
+                lokacijaIndex++;
+                // Ako smo došli do kraja liste lokacija, resetiramo index
+                if (lokacijaIndex >= lokacije.Count)
+                {
+                    lokacijaIndex = 0;
+                }
+            
         }
     </div>
-</div> 
+</div>
