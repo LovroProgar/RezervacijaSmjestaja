@@ -2,15 +2,15 @@
 
 @{
     ViewData["Title"] = "Rezervacija smještaja";
-    var danasnjiDatum = DateTime.Now.ToString("yyyy-MM-dd"); // Formatiran današnji datum
-    bool vecRezervirano = TempData["Greska"] != null; // Provjera iz TempData
+    var danasnjiDatum = DateTime.Now.ToString("yyyy-MM-dd");
+    bool vecRezervirano = TempData["Greska"] != null;
 }
 
 @if (Model.Smjestaj != null)
 {
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4 shadow-lg" style="width: 400px;">
-            <h2 class="text-center mb-4">Rezervacija</h2>
+        <div class="card p-3 shadow-lg d-flex flex-column justify-content-between" style="width: 400px;">
+            <h2 class="text-center mb-3">Rezervacija</h2>
 
             @if (vecRezervirano)
             {
@@ -22,24 +22,30 @@
             <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded mb-3" alt="Slika smještaja">
 
             <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
-            <p class="text-center text-muted">@Model.Smjestaj.Opis</p>
-            <p class="text-center"><strong>Cijena po noći:</strong> <span id="cijenaPoNoci">@Model.Smjestaj.CijenaPoNoci</span> €</p>
 
-            <div class="mb-3">
+            <!-- Opis i cijena poredani horizontalno -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <p class="text-muted mb-0">@Model.Smjestaj.Opis</p>
+                <p class="fw-bold mb-0">@Model.Smjestaj.CijenaPoNoci € / noć</p>
+            </div>
+
+            <div class="mb-2">
                 <label class="form-label">Datum od</label>
                 <input type="date" id="datumOd" class="form-control" required min="@danasnjiDatum" value="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-2">
                 <label class="form-label">Datum do</label>
                 <input type="date" id="datumDo" class="form-control" required min="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
             </div>
 
-            <p class="text-center"><strong>Ukupna cijena:</strong> <span id="ukupnaCijena">0</span> €</p>
-
-            <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success w-100 @(vecRezervirano ? "disabled" : "")">
-                Potvrdi Rezervaciju
-            </a>
+            <!-- Ukupna cijena i gumb u istom redu s manjim razmakom -->
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <p class="fw-bold mb-0">Ukupna cijena: <span id="ukupnaCijena">0</span> €</p>
+                <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success @(vecRezervirano ? "disabled" : "")">
+                    Potvrdi Rezervaciju
+                </a>
+            </div>
         </div>
     </div>
 }
@@ -53,7 +59,7 @@ else
         var datumOd = document.getElementById("datumOd");
         var datumDo = document.getElementById("datumDo");
         var ukupnaCijena = document.getElementById("ukupnaCijena");
-        var cijenaPoNoci = parseFloat(document.getElementById("cijenaPoNoci").innerText);
+        var cijenaPoNoci = parseFloat("@Model.Smjestaj.CijenaPoNoci");
 
         if (!datumOd || !datumDo) return;
 
