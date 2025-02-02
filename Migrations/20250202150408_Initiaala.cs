@@ -5,7 +5,7 @@
 namespace RezervacijaSmjestaja.Migrations
 {
     /// <inheritdoc />
-    public partial class _1ada : Migration
+    public partial class Initiaala : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

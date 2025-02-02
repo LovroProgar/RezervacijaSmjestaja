@@ -1,25 +1,108 @@
-﻿@model IEnumerable<RezervacijaSmjestaja.Models.Rezervacija>
+﻿@model List<RezervacijaSmjestaja.Models.Rezervacija>
 
-<h2 class="text-center mb-4">Moje rezervacije</h2>
+@{
+    ViewData["Title"] = "Moje Rezervacije";
+}
 
 <div class="container">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var rezervacija in Model)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="@rezervacija.Smjestaj.SlikaUrl" class="card-img-top" alt="Smještaj">
-                    <div class="card-body">
-                        <h5 class="card-title">@rezervacija.Smjestaj.Naziv</h5>
-                        <p class="card-text text-muted">@rezervacija.Smjestaj.Opis</p>
-                        <p class="fw-bold">📍 Lokacija:</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-success fw-bold">@rezervacija.Smjestaj.CijenaPoNoci € / noć</span>
-                            <a href="@Url.Action("Uredi", "Rezervacija", new { id = rezervacija.Id })" class="btn btn-warning">Uredi</a>
+    <h2 class="text-center mb-4">Moje Rezervacije</h2>
+
+    @if (!Model.Any())
+    {
+        <p class="text-center text-muted">Nemate nijednu rezervaciju.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var rezervacija in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-3 shadow">
+                        <img src="@rezervacija.Smjestaj.SlikaUrl" class="card-img-top" alt="Slika smještaja">
+                        <div class="card-body">
+                            <h5 class="card-title">@rezervacija.Smjestaj.Naziv</h5>
+                            <p class="card-text">@rezervacija.Smjestaj.Opis</p>
+                            <p>
+                                <strong>Datum:</strong>
+                                <span id="datum_@rezervacija.Id">@rezervacija.DatumOd.ToString("d.M.yyyy")</span> -
+                                <span id="datumDo_@rezervacija.Id">@rezervacija.DatumDo.ToString("d.M.yyyy")</span>
+                            </p>
+                            <p><strong>Cijena:</strong> @(rezervacija.Smjestaj.CijenaPoNoci * (rezervacija.DatumDo - rezervacija.DatumOd).Days) €</p>
+
+                            <!-- Gumb za otvaranje modalnog prozora -->
+                            <button class="btn btn-primary btn-sm w-100" onclick="otvoriModal(@rezervacija.Id, '@rezervacija.DatumOd.ToString("yyyy-MM-dd")', '@rezervacija.DatumDo.ToString("yyyy-MM-dd")')">
+                                Promijeni Datume
+                            </button>
+
+                            <!-- Gumb za otkazivanje rezervacije -->
+                            <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm w-100 mt-2">
+                                Otkazivanje rezervacije
+                            </a>
                         </div>
                     </div>
                 </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Modal za promjenu datuma -->
+<div id="modalPromjenaDatuma" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Promjena Datuma Rezervacije</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Zatvori">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        }
+            <div class="modal-body">
+                <form id="formaPromjenaDatuma">
+                    <input type="hidden" id="rezervacijaId">
+                    <div class="mb-3">
+                        <label class="form-label">Datum od:</label>
+                        <input type="date" id="novoDatumOd" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Datum do:</label>
+                        <input type="date" id="novoDatumDo" class="form-control" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                <button type="button" class="btn btn-primary" onclick="potvrdiPromjenuDatuma()">Spremi promjene</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- JavaScript za otvaranje modala i ažuriranje podataka -->
+<script>
+    function otvoriModal(id, datumOd, datumDo) {
+        document.getElementById("rezervacijaId").value = id;
+        document.getElementById("novoDatumOd").value = datumOd;
+        document.getElementById("novoDatumDo").value = datumDo;
+        $('#modalPromjenaDatuma').modal('show');
+    }
+
+    function potvrdiPromjenuDatuma() {
+        var id = document.getElementById("rezervacijaId").value;
+        var datumOd = document.getElementById("novoDatumOd").value;
+        var datumDo = document.getElementById("novoDatumDo").value;
+
+        $.ajax({
+            url: "/Rezervacija/PromijeniDatume",
+            type: "GET",
+            data: { id: id, datumOd: datumOd, datumDo: datumDo },
+            success: function(response) {
+                // Ažuriranje prikaza datuma bez refreshanja stranice
+                document.getElementById("datum_" + id).innerText = new Date(datumOd).toLocaleDateString("hr-HR");
+                document.getElementById("datumDo_" + id).innerText = new Date(datumDo).toLocaleDateString("hr-HR");
+
+                // Zatvaranje modalnog prozora
+                $('#modalPromjenaDatuma').modal('hide');
+            }
+        });
+    }
+</script>
