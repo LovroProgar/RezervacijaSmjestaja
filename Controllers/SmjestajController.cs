@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RezervacijaSmjestaja.Data;
 using RezervacijaSmjestaja.Models;
+using System.Linq;
 
 namespace RezervacijaSmjestaja.Controllers
 {
@@ -15,10 +16,9 @@ namespace RezervacijaSmjestaja.Controllers
 
         public IActionResult Index()
         {
-            var smjestaji = _context.Smjestaji.ToList(); // Dohvati sve smještaje iz baze
-            return View(smjestaji); // Proslijedi ih u View
+            var smjestaji = _context.Smjestaji.ToList();
+            return View(smjestaji);
         }
-
 
         public IActionResult Detalji(int id)
         {

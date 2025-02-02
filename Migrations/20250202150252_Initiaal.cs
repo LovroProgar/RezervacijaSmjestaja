@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace RezervacijaSmjestaja.Migrations
 {
     /// <inheritdoc />
-    public partial class _1 : Migration
+    public partial class Initiaal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +28,7 @@ namespace RezervacijaSmjestaja.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Smjestaji",
+                name: "Smjestaj",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -42,7 +40,7 @@ namespace RezervacijaSmjestaja.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Smjestaji", x => x.Id);
+                    table.PrimaryKey("PK_Smjestaj", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,24 +64,11 @@ namespace RezervacijaSmjestaja.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rezervacije_Smjestaji_SmjestajId",
+                        name: "FK_Rezervacije_Smjestaj_SmjestajId",
                         column: x => x.SmjestajId,
-                        principalTable: "Smjestaji",
+                        principalTable: "Smjestaj",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Smjestaji",
-                columns: new[] { "Id", "CijenaPoNoci", "Naziv", "Opis", "SlikaUrl" },
-                values: new object[,]
-                {
-                    { 1, 120m, "Hotel Blue Lagoon", "Luksuzan hotel uz obalu", "/pictures/1.jpg" },
-                    { 2, 250m, "Villa Sun", "Privatna vila s bazenom", "/pictures/2.jpg" },
-                    { 3, 180m, "Mountain Resort", "Odmaralište u planinama", "/pictures/3.jpg" },
-                    { 4, 100m, "Apartman Deluxe", "Moderan apartman u centru", "/pictures/4.jpg" },
-                    { 5, 80m, "Seoska Kuća", "Mirno mjesto za odmor", "/pictures/5.jpg" },
-                    { 6, 200m, "Beach House", "Kuća na plaži s pogledom", "/pictures/6.jpg" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -107,7 +92,7 @@ namespace RezervacijaSmjestaja.Migrations
                 name: "Korisnici");
 
             migrationBuilder.DropTable(
-                name: "Smjestaji");
+                name: "Smjestaj");
         }
     }
 }

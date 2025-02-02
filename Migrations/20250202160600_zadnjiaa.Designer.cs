@@ -12,8 +12,8 @@ using RezervacijaSmjestaja.Data;
 namespace RezervacijaSmjestaja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250201210708_1")]
-    partial class _1
+    [Migration("20250202160600_zadnjiaa")]
+    partial class zadnjiaa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,15 +68,10 @@ namespace RezervacijaSmjestaja.Migrations
                     b.Property<DateTime>("DatumOd")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("KorisnikId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SmjestajId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("KorisnikId");
 
                     b.HasIndex("SmjestajId");
 
@@ -111,73 +106,15 @@ namespace RezervacijaSmjestaja.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Smjestaji");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CijenaPoNoci = 120m,
-                            Naziv = "Hotel Blue Lagoon",
-                            Opis = "Luksuzan hotel uz obalu",
-                            SlikaUrl = "/pictures/1.jpg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CijenaPoNoci = 250m,
-                            Naziv = "Villa Sun",
-                            Opis = "Privatna vila s bazenom",
-                            SlikaUrl = "/pictures/2.jpg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CijenaPoNoci = 180m,
-                            Naziv = "Mountain Resort",
-                            Opis = "Odmaralište u planinama",
-                            SlikaUrl = "/pictures/3.jpg"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CijenaPoNoci = 100m,
-                            Naziv = "Apartman Deluxe",
-                            Opis = "Moderan apartman u centru",
-                            SlikaUrl = "/pictures/4.jpg"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CijenaPoNoci = 80m,
-                            Naziv = "Seoska Kuća",
-                            Opis = "Mirno mjesto za odmor",
-                            SlikaUrl = "/pictures/5.jpg"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CijenaPoNoci = 200m,
-                            Naziv = "Beach House",
-                            Opis = "Kuća na plaži s pogledom",
-                            SlikaUrl = "/pictures/6.jpg"
-                        });
                 });
 
             modelBuilder.Entity("RezervacijaSmjestaja.Models.Rezervacija", b =>
                 {
-                    b.HasOne("RezervacijaSmjestaja.Models.Korisnik", "Korisnik")
-                        .WithMany()
-                        .HasForeignKey("KorisnikId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("RezervacijaSmjestaja.Models.Smjestaj", "Smjestaj")
                         .WithMany()
                         .HasForeignKey("SmjestajId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Korisnik");
 
                     b.Navigation("Smjestaj");
                 });

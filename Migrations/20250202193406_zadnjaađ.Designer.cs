@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RezervacijaSmjestaja.Data;
 
@@ -11,9 +12,11 @@ using RezervacijaSmjestaja.Data;
 namespace RezervacijaSmjestaja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250202193406_zadnjaađ")]
+    partial class zadnjaađ
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,6 +89,10 @@ namespace RezervacijaSmjestaja.Migrations
                     b.Property<decimal>("CijenaPoNoci")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Grad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Naziv")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -109,6 +116,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 1,
                             CijenaPoNoci = 120m,
+                            Grad = "Zagreb",
                             Naziv = "Hotel Blue Lagoon",
                             Opis = "Luksuzan hotel uz obalu",
                             SlikaUrl = "/pictures/1.jpg"
@@ -117,6 +125,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 2,
                             CijenaPoNoci = 250m,
+                            Grad = "Split",
                             Naziv = "Villa Sun",
                             Opis = "Privatna vila s bazenom",
                             SlikaUrl = "/pictures/2.jpg"
@@ -125,6 +134,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 3,
                             CijenaPoNoci = 180m,
+                            Grad = "Rijeka",
                             Naziv = "Mountain Resort",
                             Opis = "Odmaralište u planinama",
                             SlikaUrl = "/pictures/3.jpg"
@@ -133,6 +143,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 4,
                             CijenaPoNoci = 100m,
+                            Grad = "Osijek",
                             Naziv = "Apartman Deluxe",
                             Opis = "Moderan apartman u centru",
                             SlikaUrl = "/pictures/4.jpg"
@@ -141,6 +152,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 5,
                             CijenaPoNoci = 80m,
+                            Grad = "Dubrovnik",
                             Naziv = "Seoska Kuća",
                             Opis = "Mirno mjesto za odmor",
                             SlikaUrl = "/pictures/5.jpg"
@@ -149,6 +161,7 @@ namespace RezervacijaSmjestaja.Migrations
                         {
                             Id = 6,
                             CijenaPoNoci = 200m,
+                            Grad = "Zadar",
                             Naziv = "Beach House",
                             Opis = "Kuća na plaži s pogledom",
                             SlikaUrl = "/pictures/6.jpg"
