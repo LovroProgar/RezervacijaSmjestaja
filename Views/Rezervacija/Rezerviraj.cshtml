@@ -36,3 +36,18 @@ else
 {
     <p class="text-center text-danger">❌ Greška: Smještaj nije pronađen.</p>
 }
+
+<script>
+    function potvrdiRezervaciju(smjestajId) {
+        var datumOd = document.getElementById("datumOd").value;
+        var datumDo = document.getElementById("datumDo").value;
+
+        if (!datumOd || !datumDo) {
+            alert("Molimo odaberite datume!");
+            return;
+        }
+
+        // Preusmjeravanje na MojeRezervacije i slanje podataka kroz URL
+        window.location.href = `/Rezervacija/PotvrdiRezervaciju?smjestajId=${smjestajId}&datumOd=${datumOd}&datumDo=${datumDo}`;
+    }
+</script>

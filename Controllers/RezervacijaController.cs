@@ -38,8 +38,14 @@ namespace RezervacijaSmjestaja.Controllers
 
         public IActionResult PotvrdiRezervaciju(int smjestajId, DateTime datumOd, DateTime datumDo)
         {
+            Console.WriteLine($"➡️ Spremam rezervaciju: SmještajID={smjestajId}, DatumOd={datumOd}, DatumDo={datumDo}");
+
             var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
-            if (smjestaj == null) return NotFound();
+            if (smjestaj == null)
+            {
+                Console.WriteLine("❌ Smještaj nije pronađen!");
+                return RedirectToAction("Index", "Smjestaj");
+            }
 
             var rezervacija = new Rezervacija
             {
@@ -54,6 +60,7 @@ namespace RezervacijaSmjestaja.Controllers
 
             return RedirectToAction("MojeRezervacije");
         }
+
 
         public IActionResult MojeRezervacije()
         {

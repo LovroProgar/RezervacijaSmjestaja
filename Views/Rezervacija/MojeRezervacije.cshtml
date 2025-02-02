@@ -1,11 +1,7 @@
 ﻿@model List<RezervacijaSmjestaja.Models.Rezervacija>
 
-@{
-    ViewData["Title"] = "Moje Rezervacije";
-}
-
 <div class="container">
-    <h2 class="text-center mb-4">Moje Rezervacije</h2>
+    <h2 class="text-center my-4">Moje Rezervacije</h2>
 
     @if (!Model.Any())
     {
@@ -29,12 +25,6 @@
                             </p>
                             <p><strong>Cijena:</strong> @(rezervacija.Smjestaj.CijenaPoNoci * (rezervacija.DatumDo - rezervacija.DatumOd).Days) €</p>
 
-                            <!-- Gumb za otvaranje modalnog prozora -->
-                            <button class="btn btn-primary btn-sm w-100" onclick="otvoriModal(@rezervacija.Id, '@rezervacija.DatumOd.ToString("yyyy-MM-dd")', '@rezervacija.DatumDo.ToString("yyyy-MM-dd")')">
-                                Promijeni Datume
-                            </button>
-
-                            <!-- Gumb za otkazivanje rezervacije -->
                             <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm w-100 mt-2">
                                 Otkazivanje rezervacije
                             </a>
