@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -19,4 +19,10 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+.smjestaj-card img {
+    height: 200px; /* Fiksna visina za slike */
+    object-fit: cover; /* Sprječava izobličenje slike */
+    width: 100%; /* Zadržava punu širinu unutar kartice */
+    border-radius: 8px; /* Zaobljeni rubovi za bolji dizajn */
 }
