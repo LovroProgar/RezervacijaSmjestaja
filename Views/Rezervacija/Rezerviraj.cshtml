@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Rezervacija smještaja";
+    var danasnjiDatum = DateTime.Now.ToString("yyyy-MM-dd"); // Formatiran današnji datum
 }
 
 @if (Model.Smjestaj != null)
@@ -14,17 +15,19 @@
 
             <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
             <p class="text-center text-muted">@Model.Smjestaj.Opis</p>
-            <p class="text-center"><strong>Cijena po noći:</strong> @Model.Smjestaj.CijenaPoNoci €</p>
+            <p class="text-center"><strong>Cijena po noći:</strong> <span id="cijenaPoNoci">@Model.Smjestaj.CijenaPoNoci</span> €</p>
 
             <div class="mb-3">
                 <label class="form-label">Datum od</label>
-                <input type="date" id="datumOd" class="form-control" required>
+                <input type="date" id="datumOd" class="form-control" required min="@danasnjiDatum" value="@danasnjiDatum">
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Datum do</label>
-                <input type="date" id="datumDo" class="form-control" required>
+                <input type="date" id="datumDo" class="form-control" required min="@danasnjiDatum">
             </div>
+
+            <p class="text-center"><strong>Ukupna cijena:</strong> <span id="ukupnaCijena">0</span> €</p>
 
             <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success w-100">
                 Potvrdi Rezervaciju
@@ -38,12 +41,48 @@ else
 }
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var datumOd = document.getElementById("datumOd");
+        var datumDo = document.getElementById("datumDo");
+        var ukupnaCijena = document.getElementById("ukupnaCijena");
+        var cijenaPoNoci = parseFloat(document.getElementById("cijenaPoNoci").innerText);
+
+        // Postavi minimalni datum završetka na početni datum
+        datumDo.setAttribute("min", datumOd.value);
+
+        // Event Listener za promjenu datuma
+        function izracunajCijenu() {
+            var od = new Date(datumOd.value);
+            var doDatum = new Date(datumDo.value);
+
+            if (od && doDatum && doDatum > od) {
+                var brojNoci = Math.ceil((doDatum - od) / (1000 * 60 * 60 * 24)); // Razlika u danima
+                var ukupno = brojNoci * cijenaPoNoci;
+                ukupnaCijena.innerText = ukupno >= 0 ? ukupno.toFixed(2) : "0"; // Sprječava negativne vrijednosti
+            } else {
+                ukupnaCijena.innerText = "0"; // Ako su datumi nevalidni
+            }
+        }
+
+        datumOd.addEventListener("change", function () {
+            datumDo.setAttribute("min", datumOd.value); // Osigurava da datum završetka ne može biti prije početka
+            izracunajCijenu();
+        });
+
+        datumDo.addEventListener("change", izracunajCijenu);
+    });
+
     function potvrdiRezervaciju(smjestajId) {
         var datumOd = document.getElementById("datumOd").value;
         var datumDo = document.getElementById("datumDo").value;
 
         if (!datumOd || !datumDo) {
             alert("Molimo odaberite datume!");
+            return;
+        }
+
+        if (new Date(datumDo) <= new Date(datumOd)) {
+            alert("Datum završetka mora biti nakon datuma početka!");
             return;
         }
 

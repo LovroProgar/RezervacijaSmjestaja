@@ -31,11 +31,7 @@ namespace RezervacijaSmjestaja.Controllers
             Console.WriteLine("Vraćam View sa podacima.");
             return View(model); // Ovdje se mora vratiti "Rezerviraj.cshtml"
         }
-
-
-
-
-
+       
         public IActionResult PotvrdiRezervaciju(int smjestajId, DateTime datumOd, DateTime datumDo)
         {
             Console.WriteLine($"➡️ Spremam rezervaciju: SmještajID={smjestajId}, DatumOd={datumOd}, DatumDo={datumDo}");
@@ -82,7 +78,7 @@ namespace RezervacijaSmjestaja.Controllers
         public IActionResult PromijeniDatume(int id, DateTime datumOd, DateTime datumDo)
         {
             var rezervacija = _context.Rezervacije.FirstOrDefault(r => r.Id == id);
-            if (rezervacija != null && datumOd < datumDo)
+            if (rezervacija != null && datumOd >= DateTime.Today && datumDo > datumOd)
             {
                 rezervacija.DatumOd = datumOd;
                 rezervacija.DatumDo = datumDo;
@@ -90,5 +86,6 @@ namespace RezervacijaSmjestaja.Controllers
             }
             return RedirectToAction("MojeRezervacije");
         }
+
     }
 }

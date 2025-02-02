@@ -1,5 +1,9 @@
 ﻿@model List<RezervacijaSmjestaja.Models.Rezervacija>
 
+@{
+    var danasnjiDatum = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
 <div class="container">
     <h2 class="text-center my-4">Moje Rezervacije</h2>
 
@@ -25,7 +29,13 @@
                             </p>
                             <p><strong>Cijena:</strong> @(rezervacija.Smjestaj.CijenaPoNoci * (rezervacija.DatumDo - rezervacija.DatumOd).Days) €</p>
 
-                            <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm w-100 mt-2">
+                            <!-- Gumb za promjenu datuma -->
+                            <button class="btn btn-primary btn-sm w-100 mb-2" onclick="otvoriModal(@rezervacija.Id, '@rezervacija.DatumOd.ToString("yyyy-MM-dd")', '@rezervacija.DatumDo.ToString("yyyy-MM-dd")')">
+                                Promijeni datum
+                            </button>
+
+                            <!-- Gumb za otkazivanje rezervacije -->
+                            <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm w-100">
                                 Otkazivanje rezervacije
                             </a>
                         </div>
@@ -35,3 +45,59 @@
         </div>
     }
 </div>
+
+<!-- Modalni prozor -->
+<div id="modalPromjenaDatuma" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Promjena datuma</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalRezervacijaId">
+                <div class="mb-3">
+                    <label class="form-label">Datum od</label>
+                    <input type="date" id="modalDatumOd" class="form-control" min="@danasnjiDatum">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Datum do</label>
+                    <input type="date" id="modalDatumDo" class="form-control" min="@danasnjiDatum">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                <button type="button" class="btn btn-success" onclick="spremiPromjene()">Spremi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function otvoriModal(rezervacijaId, datumOd, datumDo) {
+        document.getElementById("modalRezervacijaId").value = rezervacijaId;
+        document.getElementById("modalDatumOd").value = datumOd;
+        document.getElementById("modalDatumDo").value = datumDo;
+        document.getElementById("modalDatumDo").setAttribute("min", datumOd); // Datum do ne može biti manji od početnog
+        var modal = new bootstrap.Modal(document.getElementById("modalPromjenaDatuma"));
+        modal.show();
+    }
+
+    function spremiPromjene() {
+        var rezervacijaId = document.getElementById("modalRezervacijaId").value;
+        var datumOd = document.getElementById("modalDatumOd").value;
+        var datumDo = document.getElementById("modalDatumDo").value;
+
+        if (!datumOd || !datumDo) {
+            alert("Molimo odaberite ispravne datume!");
+            return;
+        }
+
+        if (new Date(datumDo) <= new Date(datumOd)) {
+            alert("Datum završetka mora biti nakon datuma početka!");
+            return;
+        }
+
+        window.location.href = `/Rezervacija/PromijeniDatume?id=${rezervacijaId}&datumOd=${datumOd}&datumDo=${datumDo}`;
+    }
+</script>
