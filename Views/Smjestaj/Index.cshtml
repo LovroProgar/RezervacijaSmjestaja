@@ -1,16 +1,22 @@
 ﻿@model List<RezervacijaSmjestaja.Models.Smjestaj>
 
+@{
+    // Lista unaprijed definiranih gradova
+    var gradovi = new List<string> { "Zagreb", "Split", "Rijeka", "Osijek", "Dubrovnik", "Pula", "Zadar", "Šibenik", "Varaždin", "Karlovac" };
+    var gradIndex = 0;
+}
+
 <div class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var smjestaj in Model)
         {
             <div class="col">
                 <div class="card h-100 shadow-sm">
-                    <img src="@smjestaj.SlikaUrl" class="card-img-top" alt="Smještaj">
+                    <img src="@smjestaj.SlikaUrl" class="card-img-top" alt="Slika smještaja">
                     <div class="card-body">
                         <h5 class="card-title">@smjestaj.Naziv</h5>
                         <p class="card-text text-muted">@smjestaj.Opis</p>
-                        <p class="fw-bold">📍 Lokacija: Neodređena</p>
+                        <p class="fw-bold">📍 Lokacija: @gradovi[gradIndex]</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-success fw-bold">@smjestaj.CijenaPoNoci € / noć</span>
                             <a asp-controller="Rezervacija" asp-action="Rezerviraj" asp-route-smjestajId="@smjestaj.Id" class="btn btn-success">Rezerviraj</a>
@@ -18,6 +24,14 @@
                     </div>
                 </div>
             </div>
+
+            // Povećava index gradova za sljedeći element
+            gradIndex++;
+            // Ako smo došli do kraja liste gradova, resetiramo index
+            if (gradIndex >= gradovi.Count)
+            {
+                gradIndex = 0;
+            }
         }
     </div>
 </div>

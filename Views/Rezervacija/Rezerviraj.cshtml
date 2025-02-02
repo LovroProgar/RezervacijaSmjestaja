@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Rezervacija smještaja";
     var danasnjiDatum = DateTime.Now.ToString("yyyy-MM-dd"); // Formatiran današnji datum
+    bool vecRezervirano = TempData["Greska"] != null; // Provjera iz TempData
 }
 
 @if (Model.Smjestaj != null)
@@ -10,6 +11,13 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 shadow-lg" style="width: 400px;">
             <h2 class="text-center mb-4">Rezervacija</h2>
+
+            @if (vecRezervirano)
+            {
+                <div class="alert alert-danger text-center">
+                    @TempData["Greska"]
+                </div>
+            }
 
             <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded mb-3" alt="Slika smještaja">
 
@@ -19,17 +27,17 @@
 
             <div class="mb-3">
                 <label class="form-label">Datum od</label>
-                <input type="date" id="datumOd" class="form-control" required min="@danasnjiDatum" value="@danasnjiDatum">
+                <input type="date" id="datumOd" class="form-control" required min="@danasnjiDatum" value="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Datum do</label>
-                <input type="date" id="datumDo" class="form-control" required min="@danasnjiDatum">
+                <input type="date" id="datumDo" class="form-control" required min="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
             </div>
 
             <p class="text-center"><strong>Ukupna cijena:</strong> <span id="ukupnaCijena">0</span> €</p>
 
-            <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success w-100">
+            <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success w-100 @(vecRezervirano ? "disabled" : "")">
                 Potvrdi Rezervaciju
             </a>
         </div>
@@ -47,25 +55,26 @@ else
         var ukupnaCijena = document.getElementById("ukupnaCijena");
         var cijenaPoNoci = parseFloat(document.getElementById("cijenaPoNoci").innerText);
 
+        if (!datumOd || !datumDo) return;
+
         // Postavi minimalni datum završetka na početni datum
         datumDo.setAttribute("min", datumOd.value);
 
-        // Event Listener za promjenu datuma
         function izracunajCijenu() {
             var od = new Date(datumOd.value);
             var doDatum = new Date(datumDo.value);
 
             if (od && doDatum && doDatum > od) {
-                var brojNoci = Math.ceil((doDatum - od) / (1000 * 60 * 60 * 24)); // Razlika u danima
+                var brojNoci = Math.ceil((doDatum - od) / (1000 * 60 * 60 * 24));
                 var ukupno = brojNoci * cijenaPoNoci;
-                ukupnaCijena.innerText = ukupno >= 0 ? ukupno.toFixed(2) : "0"; // Sprječava negativne vrijednosti
+                ukupnaCijena.innerText = ukupno >= 0 ? ukupno.toFixed(2) : "0";
             } else {
-                ukupnaCijena.innerText = "0"; // Ako su datumi nevalidni
+                ukupnaCijena.innerText = "0";
             }
         }
 
         datumOd.addEventListener("change", function () {
-            datumDo.setAttribute("min", datumOd.value); // Osigurava da datum završetka ne može biti prije početka
+            datumDo.setAttribute("min", datumOd.value);
             izracunajCijenu();
         });
 
@@ -86,7 +95,6 @@ else
             return;
         }
 
-        // Preusmjeravanje na MojeRezervacije i slanje podataka kroz URL
         window.location.href = `/Rezervacija/PotvrdiRezervaciju?smjestajId=${smjestajId}&datumOd=${datumOd}&datumDo=${datumDo}`;
     }
 </script>

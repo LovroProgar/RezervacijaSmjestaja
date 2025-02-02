@@ -31,16 +31,18 @@ namespace RezervacijaSmjestaja.Controllers
             Console.WriteLine("Vraćam View sa podacima.");
             return View(model); // Ovdje se mora vratiti "Rezerviraj.cshtml"
         }
-       
+
         public IActionResult PotvrdiRezervaciju(int smjestajId, DateTime datumOd, DateTime datumDo)
         {
-            Console.WriteLine($"➡️ Spremam rezervaciju: SmještajID={smjestajId}, DatumOd={datumOd}, DatumDo={datumDo}");
-
             var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
-            if (smjestaj == null)
+            if (smjestaj == null) return NotFound();
+
+            // Provjeri da li korisnik već ima rezervaciju za ovaj smještaj
+            bool vecRezervirano = _context.Rezervacije.Any(r => r.SmjestajId == smjestajId);
+            if (vecRezervirano)
             {
-                Console.WriteLine("❌ Smještaj nije pronađen!");
-                return RedirectToAction("Index", "Smjestaj");
+                TempData["Greska"] = "Već imate rezervaciju za ovaj smještaj.";
+                return RedirectToAction("Rezerviraj", new { smjestajId });
             }
 
             var rezervacija = new Rezervacija
@@ -56,6 +58,7 @@ namespace RezervacijaSmjestaja.Controllers
 
             return RedirectToAction("MojeRezervacije");
         }
+
 
 
         public IActionResult MojeRezervacije()
