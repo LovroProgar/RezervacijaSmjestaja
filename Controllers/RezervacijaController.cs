@@ -1,28 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RezervacijaSmjestaja.Data;
 using RezervacijaSmjestaja.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace RezervacijaSmjestaja.Controllers
 {
     public class RezervacijaController : Controller
     {
-        private static List<Rezervacija> _rezervacije = new List<Rezervacija>();
+        private readonly ApplicationDbContext _context;
 
-        private static List<Smjestaj> _smjestaji = new List<Smjestaj>
+        public RezervacijaController(ApplicationDbContext context)
         {
-            new Smjestaj { Id = 1, Naziv = "Hotel Blue Lagoon", Opis = "Luksuzan hotel uz obalu", SlikaUrl = "/pictures/1.jpg", CijenaPoNoci = 120m },
-            new Smjestaj { Id = 2, Naziv = "Villa Sun", Opis = "Privatna vila s bazenom", SlikaUrl = "/pictures/2.jpg", CijenaPoNoci = 250m },
-            new Smjestaj { Id = 3, Naziv = "Mountain Resort", Opis = "Odmaralište u planinama", SlikaUrl = "/pictures/3.jpg", CijenaPoNoci = 180m },
-            new Smjestaj { Id = 4, Naziv = "Apartman Deluxe", Opis = "Moderan apartman u centru", SlikaUrl = "/pictures/4.jpg", CijenaPoNoci = 100m },
-            new Smjestaj { Id = 5, Naziv = "Seoska Kuća", Opis = "Mirno mjesto za odmor", SlikaUrl = "/pictures/5.jpg", CijenaPoNoci = 80m },
-            new Smjestaj { Id = 6, Naziv = "Beach House", Opis = "Kuća na plaži s pogledom", SlikaUrl = "/pictures/6.jpg", CijenaPoNoci = 200m }
-        };
+            _context = context;
+        }
 
         public IActionResult Rezerviraj(int smjestajId)
         {
-            var smjestaj = _smjestaji.FirstOrDefault(s => s.Id == smjestajId);
-            if (smjestaj == null) return NotFound();
+            Console.WriteLine($"Pozvana metoda Rezerviraj() sa smjestajId: {smjestajId}");
+
+            var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId)
+                           ?? new Smjestaj { Id = 0, Naziv = "Nepoznati smještaj", Opis = "Opis nije dostupan", CijenaPoNoci = 0, SlikaUrl = "/images/default.jpg" };
 
             var model = new Rezervacija
             {
@@ -30,49 +28,58 @@ namespace RezervacijaSmjestaja.Controllers
                 Smjestaj = smjestaj
             };
 
-            return View(model);
+            Console.WriteLine("Vraćam View sa podacima.");
+            return View(model); // Ovdje se mora vratiti "Rezerviraj.cshtml"
         }
+
+
+
+
 
         public IActionResult PotvrdiRezervaciju(int smjestajId, DateTime datumOd, DateTime datumDo)
         {
-            var smjestaj = _smjestaji.FirstOrDefault(s => s.Id == smjestajId);
+            var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
             if (smjestaj == null) return NotFound();
 
-            var model = new Rezervacija
+            var rezervacija = new Rezervacija
             {
-                Id = _rezervacije.Count + 1,
                 SmjestajId = smjestajId,
                 Smjestaj = smjestaj,
                 DatumOd = datumOd,
                 DatumDo = datumDo
             };
 
-            _rezervacije.Add(model);
+            _context.Rezervacije.Add(rezervacija);
+            _context.SaveChanges();
+
             return RedirectToAction("MojeRezervacije");
         }
 
         public IActionResult MojeRezervacije()
         {
-            return View(_rezervacije);
+            var rezervacije = _context.Rezervacije.Include(r => r.Smjestaj).ToList();
+            return View(rezervacije);
         }
 
         public IActionResult ObrisiRezervaciju(int id)
         {
-            var rezervacija = _rezervacije.FirstOrDefault(r => r.Id == id);
+            var rezervacija = _context.Rezervacije.FirstOrDefault(r => r.Id == id);
             if (rezervacija != null)
             {
-                _rezervacije.Remove(rezervacija);
+                _context.Rezervacije.Remove(rezervacija);
+                _context.SaveChanges();
             }
             return RedirectToAction("MojeRezervacije");
         }
 
         public IActionResult PromijeniDatume(int id, DateTime datumOd, DateTime datumDo)
         {
-            var rezervacija = _rezervacije.FirstOrDefault(r => r.Id == id);
+            var rezervacija = _context.Rezervacije.FirstOrDefault(r => r.Id == id);
             if (rezervacija != null && datumOd < datumDo)
             {
                 rezervacija.DatumOd = datumOd;
                 rezervacija.DatumDo = datumDo;
+                _context.SaveChanges();
             }
             return RedirectToAction("MojeRezervacije");
         }

@@ -4,42 +4,35 @@
     ViewData["Title"] = "Rezervacija smještaja";
 }
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow-lg" style="width: 400px;">
-        <h2 class="text-center mb-4">Rezervacija</h2>
+@if (Model.Smjestaj != null)
+{
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4 shadow-lg" style="width: 400px;">
+            <h2 class="text-center mb-4">Rezervacija</h2>
 
-        <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded mb-3" alt="Slika smještaja">
+            <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded mb-3" alt="Slika smještaja">
 
-        <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
-        <p class="text-center text-muted">@Model.Smjestaj.Opis</p>
-        <p class="text-center"><strong>Cijena po noći:</strong> @Model.Smjestaj.CijenaPoNoci €</p>
+            <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
+            <p class="text-center text-muted">@Model.Smjestaj.Opis</p>
+            <p class="text-center"><strong>Cijena po noći:</strong> @Model.Smjestaj.CijenaPoNoci €</p>
 
-        <div class="mb-3">
-            <label class="form-label">Datum od</label>
-            <input type="date" id="datumOd" class="form-control" required>
+            <div class="mb-3">
+                <label class="form-label">Datum od</label>
+                <input type="date" id="datumOd" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Datum do</label>
+                <input type="date" id="datumDo" class="form-control" required>
+            </div>
+
+            <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success w-100">
+                Potvrdi Rezervaciju
+            </a>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Datum do</label>
-            <input type="date" id="datumDo" class="form-control" required>
-        </div>
-
-        <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success w-100">
-            Potvrdi Rezervaciju
-        </a>
     </div>
-</div>
-
-<script>
-    function potvrdiRezervaciju(smjestajId) {
-        var datumOd = document.getElementById("datumOd").value;
-        var datumDo = document.getElementById("datumDo").value;
-
-        if (!datumOd || !datumDo) {
-            alert("Molimo odaberite datume!");
-            return;
-        }
-
-        window.location.href = `/Rezervacija/PotvrdiRezervaciju?smjestajId=${smjestajId}&datumOd=${datumOd}&datumDo=${datumDo}`;
-    }
-</script>
+}
+else
+{
+    <p class="text-center text-danger">❌ Greška: Smještaj nije pronađen.</p>
+}

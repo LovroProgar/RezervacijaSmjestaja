@@ -3,7 +3,7 @@ using RezervacijaSmjestaja.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaj DbContext
+// Dodaj DbContext (povezuje aplikaciju s bazom podataka)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -14,6 +14,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
 var app = builder.Build();
+
+// Automatsko pokretanje migracija prilikom pokretanja aplikacije
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate(); // Pokreće migracije ako su potrebne
+}
 
 // Konfiguracija middleware-a
 if (!app.Environment.IsDevelopment())
