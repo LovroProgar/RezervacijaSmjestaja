@@ -23,7 +23,7 @@ namespace RezervacijaSmjestaja.Data
                 .Property(s => s.CijenaPoNoci)
                 .HasColumnType("decimal(18,2)");
 
-            // 📌 Dodavanje smještaja u bazu pri svakom pokretanju aplikacije
+            
             modelBuilder.Entity<Smjestaj>().HasData(
         new Smjestaj
         {

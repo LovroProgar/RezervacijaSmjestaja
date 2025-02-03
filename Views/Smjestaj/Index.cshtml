@@ -1,7 +1,7 @@
 ﻿@model List<RezervacijaSmjestaja.Models.Smjestaj>
 
 <div class="container my-4">
-    <!-- Filtriranje smještaja -->
+    
     <div class="row mb-4">
         <div class="col-md-4">
             <input type="text" id="pretraga" class="form-control" placeholder="Pretraži smještaj..." onkeyup="filtrirajSmjestaje()">
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <!-- 📌 Prikaz u 4x4 gridu -->
+   
     <div class="row row-cols-1 row-cols-md-4 g-4">
         @foreach (var smjestaj in Model)
         {

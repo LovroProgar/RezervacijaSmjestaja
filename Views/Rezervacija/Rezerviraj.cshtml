@@ -23,7 +23,7 @@
 
             <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
 
-            <!-- Opis i cijena poredani horizontalno -->
+            
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <p class="text-muted mb-0">@Model.Smjestaj.Opis</p>
                 <p class="fw-bold mb-0">@Model.Smjestaj.CijenaPoNoci € / noć</p>
@@ -39,7 +39,7 @@
                 <input type="date" id="datumDo" class="form-control" required min="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
             </div>
 
-            <!-- Ukupna cijena i gumb u istom redu s manjim razmakom -->
+            
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <p class="fw-bold mb-0">Ukupna cijena: <span id="ukupnaCijena">0</span> €</p>
                 <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success @(vecRezervirano ? "disabled" : "")">
@@ -63,7 +63,7 @@ else
 
         if (!datumOd || !datumDo) return;
 
-        // Postavi minimalni datum završetka na početni datum
+        
         datumDo.setAttribute("min", datumOd.value);
 
         function izracunajCijenu() {
