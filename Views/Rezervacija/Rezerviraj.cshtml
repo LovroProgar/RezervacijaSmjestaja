@@ -9,7 +9,7 @@
 @if (Model.Smjestaj != null)
 {
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-3 shadow-lg d-flex flex-column justify-content-between" style="width: 400px;">
+        <div class="card p-3 shadow-lg" style="width: 450px;">
             <h2 class="text-center mb-3">Rezervacija</h2>
 
             @if (vecRezervirano)
@@ -19,14 +19,14 @@
                 </div>
             }
 
-            <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded mb-3" alt="Slika smještaja">
+            <!-- 🔹 Slika s fiksnom veličinom -->
+            <img src="@Model.Smjestaj.SlikaUrl" class="img-fluid rounded img-fixed mb-3" alt="Slika smještaja">
 
-            <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
+            <!-- 🔹 Naziv i opis poravnati lijevo -->
+            <h4 class="fw-bold text-start mb-3">@Model.Smjestaj.Naziv</h4>
 
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <p class="text-muted mb-0">@Model.Smjestaj.Opis</p>
-                <p class="fw-bold mb-0">@Model.Smjestaj.CijenaPoNoci € / noć</p>
-            </div>
+            <p class="text-muted text-start">@Model.Smjestaj.Opis</p>
+            <p class="fw-bold text-start">@Model.Smjestaj.CijenaPoNoci € / noć</p>
 
             <form id="rezervacijaForm" method="post" asp-action="PotvrdiRezervaciju" asp-controller="Rezervacija">
                 <input type="hidden" name="smjestajId" value="@Model.SmjestajId">
@@ -86,3 +86,18 @@ else
         datumDo.addEventListener("change", izracunajCijenu);
     });
 </script>
+
+<style>
+    /* 🔹 Fiksna veličina slike */
+    .img-fixed {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    /* 🔹 Razmak ispod naslova */
+    h4 {
+        margin-bottom: 15px;
+    }
+</style>

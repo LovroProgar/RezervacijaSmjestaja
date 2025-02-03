@@ -29,15 +29,16 @@
                             </p>
                             <p><strong>Cijena:</strong> @(rezervacija.Smjestaj.CijenaPoNoci * (rezervacija.DatumDo - rezervacija.DatumOd).Days) €</p>
 
-                            <!-- 🔹 Gumb za promjenu datuma -->
-                            <button class="btn btn-primary btn-sm w-100 mb-2" onclick="otvoriModal(@rezervacija.Id, '@rezervacija.DatumOd.ToString("yyyy-MM-dd")', '@rezervacija.DatumDo.ToString("yyyy-MM-dd")')">
-                                Promijeni datum
-                            </button>
+                            <!-- 🔹 Gumbovi u jednom redu -->
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-primary btn-sm me-2 flex-fill" onclick="otvoriModal(@rezervacija.Id, '@rezervacija.DatumOd.ToString("yyyy-MM-dd")', '@rezervacija.DatumDo.ToString("yyyy-MM-dd")')">
+                                    Promijeni datum
+                                </button>
 
-                            <!-- 🔹 Gumb za otkazivanje rezervacije -->
-                            <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm w-100">
-                                Otkazivanje rezervacije
-                            </a>
+                                <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm flex-fill">
+                                    Otkazivanje
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
