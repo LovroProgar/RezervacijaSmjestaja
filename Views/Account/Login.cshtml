@@ -1,20 +1,23 @@
 ﻿@model RezervacijaSmjestaja.Models.Korisnik
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["HideNavbar"] = true;
+}
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow" style="width: 350px;">
         <h2 class="text-center mb-4">Prijava</h2>
 
-        <form asp-action="Login">
+        <form asp-action="Login" method="post">
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input name="email" class="form-control" />
+                <input name="email" class="form-control" required />
             </div>
             <div class="mb-3">
                 <label class="form-label">Lozinka</label>
-                <input name="lozinka" type="password" class="form-control" />
+                <input name="lozinka" type="password" class="form-control" required />
             </div>
-            <a href="@Url.Action("Index", "Smjestaj")" class="btn btn-success w-100">Prijavi se</a>
-
+            <button type="submit" class="btn btn-success w-100">Prijavi se</button>
         </form>
 
         <p class="text-center mt-3">Nemate račun? <a asp-action="Register">Registrirajte se</a></p>

@@ -1,29 +1,33 @@
 ﻿@model RezervacijaSmjestaja.Models.Korisnik
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["HideNavbar"] = true;
+}
 
 
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow" style="width: 350px;">
         <h2 class="text-center mb-4">Registracija</h2>
 
-        <form asp-action="Register">
+        <form asp-action="Register" method="post">
             <div class="mb-3">
                 <label asp-for="Ime" class="form-label"></label>
-                <input asp-for="Ime" class="form-control" />
+                <input asp-for="Ime" class="form-control" required />
                 <span asp-validation-for="Ime" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Prezime" class="form-label"></label>
-                <input asp-for="Prezime" class="form-control" />
+                <input asp-for="Prezime" class="form-control" required />
                 <span asp-validation-for="Prezime" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="Lozinka" class="form-label"></label>
-                <input asp-for="Lozinka" type="password" class="form-control" />
+                <input asp-for="Lozinka" type="password" class="form-control" required />
                 <span asp-validation-for="Lozinka" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary w-100">Registriraj se</button>

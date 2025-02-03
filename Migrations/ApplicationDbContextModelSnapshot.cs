@@ -65,10 +65,15 @@ namespace RezervacijaSmjestaja.Migrations
                     b.Property<DateTime>("DatumOd")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("KorisnikId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SmjestajId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("KorisnikId");
 
                     b.HasIndex("SmjestajId");
 
@@ -258,11 +263,19 @@ namespace RezervacijaSmjestaja.Migrations
 
             modelBuilder.Entity("RezervacijaSmjestaja.Models.Rezervacija", b =>
                 {
+                    b.HasOne("RezervacijaSmjestaja.Models.Korisnik", "Korisnik")
+                        .WithMany()
+                        .HasForeignKey("KorisnikId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RezervacijaSmjestaja.Models.Smjestaj", "Smjestaj")
                         .WithMany()
                         .HasForeignKey("SmjestajId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Korisnik");
 
                     b.Navigation("Smjestaj");
                 });

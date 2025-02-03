@@ -1,29 +1,81 @@
-﻿@model RezervacijaSmjestaja.Models.Rezervacija
+﻿@model List<RezervacijaSmjestaja.Models.Smjestaj>
 
-@{
-    ViewData["Title"] = "Rezervacija smještaja";
-}
-
-<h2 class="text-center">Rezervacija smještaja</h2>
-
-<div class="container">
-    <h4>Smještaj: @Model.Smjestaj.Naziv</h4>
-    <p><strong>Opis:</strong> @Model.Smjestaj.Opis</p>
-    <img src="@Model.Smjestaj.SlikaUrl" alt="@Model.Smjestaj.Naziv" class="img-fluid" />
-
-    <form asp-action="Rezervisi" method="post">
-        <input type="hidden" asp-for="SmjestajId" />
-
-        <div class="form-group">
-            <label for="DatumOd">Datum od</label>
-            <input type="date" class="form-control" id="DatumOd" name="DatumOd" required />
+<div class="container my-4">
+    <!-- 🔹 Filtriranje smještaja -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" id="pretraga" class="form-control" placeholder="Pretraži smještaj..." onkeyup="filtrirajSmjestaje()">
         </div>
-
-        <div class="form-group">
-            <label for="DatumDo">Datum do</label>
-            <input type="date" class="form-control" id="DatumDo" name="DatumDo" required />
+        <div class="col-md-4">
+            <select id="gradFilter" class="form-control" onchange="filtrirajSmjestaje()">
+                <option value="">Svi gradovi</option>
+                <option value="Zagreb">Zagreb</option>
+                <option value="Split">Split</option>
+                <option value="Rijeka">Rijeka</option>
+                <option value="Osijek">Osijek</option>
+                <option value="Dubrovnik">Dubrovnik</option>
+                <option value="Pula">Pula</option>
+                <option value="Zadar">Zadar</option>
+                <option value="Šibenik">Šibenik</option>
+                <option value="Varaždin">Varaždin</option>
+                <option value="Karlovac">Karlovac</option>
+            </select>
         </div>
+        <div class="col-md-4">
+            <input type="number" id="cijenaFilter" class="form-control" placeholder="Max cijena (€)" onkeyup="filtrirajSmjestaje()">
+        </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary btn-block">Rezerviraj</button>
-    </form>
+    <!-- 🔹 Prikaz u 4x4 gridu -->
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @foreach (var smjestaj in Model)
+        {
+            <div class="col smjestaj-card"
+                 data-naziv="@smjestaj.Naziv"
+                 data-grad="@smjestaj.Grad"
+                 data-cijena="@smjestaj.CijenaPoNoci">
+                <div class="card h-100 shadow-sm">
+                    <img src="@smjestaj.SlikaUrl" class="card-img-top img-fluid fixed-height" alt="Slika smještaja">
+                    <div class="card-body">
+                        <h5 class="card-title">@smjestaj.Naziv</h5>
+                        <p class="card-text text-muted">@smjestaj.Opis</p>
+                        <p class="fw-bold">📍 Lokacija: @smjestaj.Grad</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-success fw-bold">@smjestaj.CijenaPoNoci € / noć</span>
+                            <a asp-controller="Rezervacija" asp-action="Rezerviraj" asp-route-smjestajId="@smjestaj.Id" class="btn btn-success">Rezerviraj</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+<!-- 🔹 Skripta za filtriranje smještaja -->
+<script>
+    function filtrirajSmjestaje() {
+        var pretraga = document.getElementById("pretraga").value.toLowerCase();
+        var grad = document.getElementById("gradFilter").value;
+        var maxCijena = document.getElementById("cijenaFilter").value;
+
+        document.querySelectorAll(".smjestaj-card").forEach(card => {
+            var naziv = card.getAttribute("data-naziv").toLowerCase();
+            var cardGrad = card.getAttribute("data-grad");
+            var cijena = parseFloat(card.getAttribute("data-cijena"));
+
+            var prikazi = (!pretraga || naziv.includes(pretraga)) &&
+                          (!grad || cardGrad === grad) &&
+                          (!maxCijena || cijena <= maxCijena);
+
+            card.style.display = prikazi ? "block" : "none";
+        });
+    }
+</script>
+
+<!-- 🔹 CSS za jednaku visinu slika -->
+<style>
+    .fixed-height {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>

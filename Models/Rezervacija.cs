@@ -16,6 +16,12 @@ namespace RezervacijaSmjestaja.Models
         public Smjestaj Smjestaj { get; set; }
 
         [Required]
+        public int KorisnikId { get; set; } // 🔹 Veza na korisnika
+
+        [ForeignKey("KorisnikId")]
+        public Korisnik Korisnik { get; set; } // 🔹 Povezano s korisnikom
+
+        [Required]
         public DateTime DatumOd { get; set; }
 
         [Required]
