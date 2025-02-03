@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RezervacijaSmjestaja.Data;
 using RezervacijaSmjestaja.Models;
+using System;
 using System.Linq;
 
 namespace RezervacijaSmjestaja.Controllers
@@ -53,17 +54,30 @@ namespace RezervacijaSmjestaja.Controllers
                 return NotFound();
             }
 
-            // 🔹 Provjera da korisnik ne može rezervirati isti smještaj u istom terminu
-            bool vecRezervirano = _context.Rezervacije.Any(r =>
+            // 🔹 Provjera da korisnik ne može rezervirati isti smještaj u istom terminu više puta
+            bool vecRezerviranoZaIstogKorisnika = _context.Rezervacije.Any(r =>
                 r.SmjestajId == smjestajId &&
                 r.KorisnikId == korisnik.Id &&
                 ((datumOd >= r.DatumOd && datumOd < r.DatumDo) ||
                  (datumDo > r.DatumOd && datumDo <= r.DatumDo) ||
                  (datumOd <= r.DatumOd && datumDo >= r.DatumDo)));
 
-            if (vecRezervirano)
+            if (vecRezerviranoZaIstogKorisnika)
             {
                 TempData["Greska"] = "Već imate rezervaciju za ovaj smještaj u odabranom terminu!";
+                return RedirectToAction("Rezerviraj", new { smjestajId });
+            }
+
+            // 🔹 Provjera da **bilo koji drugi korisnik** ne može rezervirati smještaj koji je zauzet u istom terminu
+            bool vecRezerviranoOdDrugogKorisnika = _context.Rezervacije.Any(r =>
+                r.SmjestajId == smjestajId &&
+                ((datumOd >= r.DatumOd && datumOd < r.DatumDo) ||
+                 (datumDo > r.DatumOd && datumDo <= r.DatumDo) ||
+                 (datumOd <= r.DatumOd && datumDo >= r.DatumDo)));
+
+            if (vecRezerviranoOdDrugogKorisnika)
+            {
+                TempData["Greska"] = "Odabrani smještaj je već rezerviran u odabranom terminu!";
                 return RedirectToAction("Rezerviraj", new { smjestajId });
             }
 

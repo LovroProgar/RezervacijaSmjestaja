@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RezervacijaSmjestaja.Data;
 
@@ -11,9 +12,11 @@ using RezervacijaSmjestaja.Data;
 namespace RezervacijaSmjestaja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250203121538_daaa")]
+    partial class daaa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,7 +125,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Zagreb",
                             Naziv = "Modern City Apartment",
                             Opis = "Luksuzan apartman u centru grada",
-                            SlikaUrl = "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?w=1280"
                         },
                         new
                         {
@@ -131,7 +134,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Split",
                             Naziv = "Seaside Apartment",
                             Opis = "Apartman s pogledom na more",
-                            SlikaUrl = "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/3075991/pexels-photo-3075991.jpeg?w=1280"
                         },
                         new
                         {
@@ -140,7 +143,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Rijeka",
                             Naziv = "Cozy Mountain Loft",
                             Opis = "Moderan loft u planinama",
-                            SlikaUrl = "https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?w=1280"
                         },
                         new
                         {
@@ -149,7 +152,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Osijek",
                             Naziv = "Luxury Penthouse",
                             Opis = "Ekskluzivan penthouse s terasom",
-                            SlikaUrl = "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/1757413/pexels-photo-1757413.jpeg?w=1280"
                         },
                         new
                         {
@@ -158,7 +161,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Dubrovnik",
                             Naziv = "Rustic Countryside Home",
                             Opis = "Udobna kuća u prirodi",
-                            SlikaUrl = "https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/751268/pexels-photo-751268.jpeg?w=1280"
                         },
                         new
                         {
@@ -167,7 +170,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Pula",
                             Naziv = "Tropical Beach Apartment",
                             Opis = "Apartman uz samu plažu",
-                            SlikaUrl = "https://images.pexels.com/photos/271619/pexels-photo-271619.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/221457/pexels-photo-221457.jpeg?w=1280"
                         },
                         new
                         {
@@ -175,8 +178,8 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 160m,
                             Grad = "Zadar",
                             Naziv = "Elegant City Suite",
-                            Opis = "Moderan apartman",
-                            SlikaUrl = "https://images.pexels.com/photos/259950/pexels-photo-259950.jpeg?w=1280"
+                            Opis = "Moderan apartman s elegantnim dizajnom",
+                            SlikaUrl = "https://images.pexels.com/photos/813691/pexels-photo-813691.jpeg?w=1280"
                         },
                         new
                         {
@@ -184,8 +187,8 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 220m,
                             Grad = "Šibenik",
                             Naziv = "Hillside Retreat",
-                            Opis = "Apartman na osami",
-                            SlikaUrl = "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?w=1280"
+                            Opis = "Apartman na osami s predivnim pogledom",
+                            SlikaUrl = "https://images.pexels.com/photos/2102437/pexels-photo-2102437.jpeg?w=1280"
                         },
                         new
                         {
@@ -194,7 +197,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Varaždin",
                             Naziv = "Panoramic View Apartment",
                             Opis = "Apartman s panoramskim pogledom",
-                            SlikaUrl = "https://images.pexels.com/photos/276663/pexels-photo-276663.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg?w=1280"
                         },
                         new
                         {
@@ -203,7 +206,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Karlovac",
                             Naziv = "Seaview Penthouse",
                             Opis = "Penthouse s pogledom na more",
-                            SlikaUrl = "https://images.pexels.com/photos/276554/pexels-photo-276554.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg?w=1280"
                         },
                         new
                         {
@@ -212,7 +215,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Makarska",
                             Naziv = "Downtown Studio",
                             Opis = "Minimalistički studio u centru",
-                            SlikaUrl = "https://images.pexels.com/photos/276671/pexels-photo-276671.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/374689/pexels-photo-374689.jpeg?w=1280"
                         },
                         new
                         {
@@ -221,7 +224,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Hvar",
                             Naziv = "Wooden Chalet",
                             Opis = "Planinska brvnara za potpuni odmor",
-                            SlikaUrl = "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg?w=1280"
                         },
                         new
                         {
@@ -230,7 +233,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Zadar",
                             Naziv = "Luxury Villa",
                             Opis = "Privatna vila s bazenom",
-                            SlikaUrl = "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/2103999/pexels-photo-2103999.jpeg?w=1280"
                         },
                         new
                         {
@@ -239,7 +242,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Šibenik",
                             Naziv = "Modern Apartment",
                             Opis = "Stilno uređen apartman u centru",
-                            SlikaUrl = "https://images.pexels.com/photos/276663/pexels-photo-276663.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?w=1280"
                         },
                         new
                         {
@@ -248,7 +251,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Plitvice",
                             Naziv = "Open Space Loft",
                             Opis = "Prostrani loft s modernim dizajnom",
-                            SlikaUrl = "https://images.pexels.com/photos/276652/pexels-photo-276652.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/2251247/pexels-photo-2251247.jpeg?w=1280"
                         },
                         new
                         {
@@ -257,7 +260,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Dubrovnik",
                             Naziv = "City Center Apartment",
                             Opis = "Savršeno mjesto za urbane nomade",
-                            SlikaUrl = "https://images.pexels.com/photos/276671/pexels-photo-276671.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/259950/pexels-photo-259950.jpeg?w=1280"
                         });
                 });
 

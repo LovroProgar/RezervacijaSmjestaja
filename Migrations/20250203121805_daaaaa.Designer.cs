@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RezervacijaSmjestaja.Data;
 
@@ -11,9 +12,11 @@ using RezervacijaSmjestaja.Data;
 namespace RezervacijaSmjestaja.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250203121805_daaaaa")]
+    partial class daaaaa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,7 +178,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 160m,
                             Grad = "Zadar",
                             Naziv = "Elegant City Suite",
-                            Opis = "Moderan apartman",
+                            Opis = "Moderan apartman s elegantnim dizajnom",
                             SlikaUrl = "https://images.pexels.com/photos/259950/pexels-photo-259950.jpeg?w=1280"
                         },
                         new
@@ -184,7 +187,7 @@ namespace RezervacijaSmjestaja.Migrations
                             CijenaPoNoci = 220m,
                             Grad = "Šibenik",
                             Naziv = "Hillside Retreat",
-                            Opis = "Apartman na osami",
+                            Opis = "Apartman na osami s predivnim pogledom",
                             SlikaUrl = "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?w=1280"
                         },
                         new
@@ -221,7 +224,7 @@ namespace RezervacijaSmjestaja.Migrations
                             Grad = "Hvar",
                             Naziv = "Wooden Chalet",
                             Opis = "Planinska brvnara za potpuni odmor",
-                            SlikaUrl = "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?w=1280"
+                            SlikaUrl = "https://images.pexels.com/photos/1643386/pexels-photo-1643386.jpeg?w=1280"
                         },
                         new
                         {
