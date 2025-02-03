@@ -29,7 +29,7 @@ namespace RezervacijaSmjestaja.Controllers
             };
 
             Console.WriteLine("Vraćam View sa podacima.");
-            return View(model); // Ovdje se mora vratiti "Rezerviraj.cshtml"
+            return View(model); 
         }
 
         public IActionResult PotvrdiRezervaciju(int smjestajId, DateTime datumOd, DateTime datumDo)
@@ -37,7 +37,7 @@ namespace RezervacijaSmjestaja.Controllers
             var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
             if (smjestaj == null) return NotFound();
 
-            // Provjeri da li korisnik već ima rezervaciju za ovaj smještaj
+            
             bool vecRezervirano = _context.Rezervacije.Any(r => r.SmjestajId == smjestajId);
             if (vecRezervirano)
             {

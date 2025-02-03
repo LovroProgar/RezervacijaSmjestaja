@@ -22,7 +22,7 @@ namespace RezervacijaSmjestaja.Models
         [Range(0, 9999.99)]
         public decimal CijenaPoNoci { get; set; }
 
-        [Required] // 📌 Dodano polje za grad
+        [Required] 
         [StringLength(100)]
         public string Grad { get; set; }
     }

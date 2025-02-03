@@ -15,12 +15,12 @@ namespace RezervacijaSmjestaja.Controllers
 
         public IActionResult Logout()
         {
-            // Brišemo sesiju i cookies koji sadrže informacije o prijavljenom korisniku
+            
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account"); // Preusmjeravamo korisnika na login stranicu
+            return RedirectToAction("Login", "Account"); 
         }
 
-        // GET: Account/Register
+       
         public IActionResult Register()
         {
             return View();
@@ -38,13 +38,13 @@ namespace RezervacijaSmjestaja.Controllers
             return View(korisnik);
         }
 
-        // GET: Account/Login
+       
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: Account/Login
+        
         [HttpPost]
         public IActionResult Login(string email, string lozinka)
         {
