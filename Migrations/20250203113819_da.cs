@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RezervacijaSmjestaja.Migrations
 {
     /// <inheritdoc />
-    public partial class finalllaaa : Migration
+    public partial class da : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,12 +53,19 @@ namespace RezervacijaSmjestaja.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SmjestajId = table.Column<int>(type: "int", nullable: false),
+                    KorisnikId = table.Column<int>(type: "int", nullable: false),
                     DatumOd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DatumDo = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rezervacije", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rezervacije_Korisnici_KorisnikId",
+                        column: x => x.KorisnikId,
+                        principalTable: "Korisnici",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Rezervacije_Smjestaji_SmjestajId",
                         column: x => x.SmjestajId,
@@ -91,6 +98,11 @@ namespace RezervacijaSmjestaja.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Rezervacije_KorisnikId",
+                table: "Rezervacije",
+                column: "KorisnikId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Rezervacije_SmjestajId",
                 table: "Rezervacije",
                 column: "SmjestajId");
@@ -100,10 +112,10 @@ namespace RezervacijaSmjestaja.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Korisnici");
+                name: "Rezervacije");
 
             migrationBuilder.DropTable(
-                name: "Rezervacije");
+                name: "Korisnici");
 
             migrationBuilder.DropTable(
                 name: "Smjestaji");

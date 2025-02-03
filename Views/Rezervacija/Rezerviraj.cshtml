@@ -23,29 +23,29 @@
 
             <h4 class="text-center">@Model.Smjestaj.Naziv</h4>
 
-            
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <p class="text-muted mb-0">@Model.Smjestaj.Opis</p>
                 <p class="fw-bold mb-0">@Model.Smjestaj.CijenaPoNoci € / noć</p>
             </div>
 
-            <div class="mb-2">
-                <label class="form-label">Datum od</label>
-                <input type="date" id="datumOd" class="form-control" required min="@danasnjiDatum" value="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
-            </div>
+            <form id="rezervacijaForm" method="post" asp-action="PotvrdiRezervaciju" asp-controller="Rezervacija">
+                <input type="hidden" name="smjestajId" value="@Model.SmjestajId">
 
-            <div class="mb-2">
-                <label class="form-label">Datum do</label>
-                <input type="date" id="datumDo" class="form-control" required min="@danasnjiDatum" @(vecRezervirano ? "disabled" : "")>
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">Datum od</label>
+                    <input type="date" id="datumOd" name="datumOd" class="form-control" required min="@danasnjiDatum" value="@danasnjiDatum">
+                </div>
 
-            
-            <div class="d-flex justify-content-between align-items-center mt-3">
-                <p class="fw-bold mb-0">Ukupna cijena: <span id="ukupnaCijena">0</span> €</p>
-                <a href="#" onclick="potvrdiRezervaciju(@Model.SmjestajId)" class="btn btn-success @(vecRezervirano ? "disabled" : "")">
-                    Potvrdi Rezervaciju
-                </a>
-            </div>
+                <div class="mb-2">
+                    <label class="form-label">Datum do</label>
+                    <input type="date" id="datumDo" name="datumDo" class="form-control" required min="@danasnjiDatum">
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <p class="fw-bold mb-0">Ukupna cijena: <span id="ukupnaCijena">0</span> €</p>
+                    <button type="submit" class="btn btn-success">Potvrdi Rezervaciju</button>
+                </div>
+            </form>
         </div>
     </div>
 }
@@ -63,7 +63,6 @@ else
 
         if (!datumOd || !datumDo) return;
 
-        
         datumDo.setAttribute("min", datumOd.value);
 
         function izracunajCijenu() {
@@ -86,21 +85,4 @@ else
 
         datumDo.addEventListener("change", izracunajCijenu);
     });
-
-    function potvrdiRezervaciju(smjestajId) {
-        var datumOd = document.getElementById("datumOd").value;
-        var datumDo = document.getElementById("datumDo").value;
-
-        if (!datumOd || !datumDo) {
-            alert("Molimo odaberite datume!");
-            return;
-        }
-
-        if (new Date(datumDo) <= new Date(datumOd)) {
-            alert("Datum završetka mora biti nakon datuma početka!");
-            return;
-        }
-
-        window.location.href = `/Rezervacija/PotvrdiRezervaciju?smjestajId=${smjestajId}&datumOd=${datumOd}&datumDo=${datumDo}`;
-    }
 </script>

@@ -18,7 +18,7 @@
             {
                 <div class="col-md-4">
                     <div class="card mb-3 shadow">
-                        <img src="@rezervacija.Smjestaj.SlikaUrl" class="card-img-top" alt="Slika smještaja">
+                        <img src="@rezervacija.Smjestaj.SlikaUrl" class="card-img-top img-fluid fixed-size" alt="Slika smještaja">
                         <div class="card-body">
                             <h5 class="card-title">@rezervacija.Smjestaj.Naziv</h5>
                             <p class="card-text">@rezervacija.Smjestaj.Opis</p>
@@ -29,12 +29,12 @@
                             </p>
                             <p><strong>Cijena:</strong> @(rezervacija.Smjestaj.CijenaPoNoci * (rezervacija.DatumDo - rezervacija.DatumOd).Days) €</p>
 
-                            
+                            <!-- 🔹 Gumb za promjenu datuma -->
                             <button class="btn btn-primary btn-sm w-100 mb-2" onclick="otvoriModal(@rezervacija.Id, '@rezervacija.DatumOd.ToString("yyyy-MM-dd")', '@rezervacija.DatumDo.ToString("yyyy-MM-dd")')">
                                 Promijeni datum
                             </button>
 
-                            
+                            <!-- 🔹 Gumb za otkazivanje rezervacije -->
                             <a asp-action="ObrisiRezervaciju" asp-route-id="@rezervacija.Id" class="btn btn-danger btn-sm w-100">
                                 Otkazivanje rezervacije
                             </a>
@@ -46,7 +46,7 @@
     }
 </div>
 
-<!-- Modalni prozor -->
+<!-- 🔹 Modalni prozor za promjenu datuma -->
 <div id="modalPromjenaDatuma" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -73,12 +73,13 @@
     </div>
 </div>
 
+<!-- 🔹 Skripta za promjenu datuma -->
 <script>
     function otvoriModal(rezervacijaId, datumOd, datumDo) {
         document.getElementById("modalRezervacijaId").value = rezervacijaId;
         document.getElementById("modalDatumOd").value = datumOd;
         document.getElementById("modalDatumDo").value = datumDo;
-        document.getElementById("modalDatumDo").setAttribute("min", datumOd); // Datum do ne može biti manji od početnog
+        document.getElementById("modalDatumDo").setAttribute("min", datumOd);
         var modal = new bootstrap.Modal(document.getElementById("modalPromjenaDatuma"));
         modal.show();
     }
@@ -101,3 +102,12 @@
         window.location.href = `/Rezervacija/PromijeniDatume?id=${rezervacijaId}&datumOd=${datumOd}&datumDo=${datumDo}`;
     }
 </script>
+
+<!-- 🔹 CSS za jednaku visinu i širinu slika -->
+<style>
+    .fixed-size {
+        width: 100%; /* Prilagođava širinu veličini kartice */
+        height: 200px; /* Fiksna visina za sve slike */
+        object-fit: cover; /* Održava omjer i izrezuje višak */
+    }
+</style>

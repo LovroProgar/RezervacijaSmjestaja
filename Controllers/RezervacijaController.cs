@@ -17,10 +17,11 @@ namespace RezervacijaSmjestaja.Controllers
 
         public IActionResult Rezerviraj(int smjestajId)
         {
-            Console.WriteLine($"Pozvana metoda Rezerviraj() sa smjestajId: {smjestajId}");
-
-            var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId)
-                           ?? new Smjestaj { Id = 0, Naziv = "Nepoznati smještaj", Opis = "Opis nije dostupan", CijenaPoNoci = 0, SlikaUrl = "/images/default.jpg" };
+            var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
+            if (smjestaj == null)
+            {
+                return NotFound();
+            }
 
             var model = new Rezervacija
             {
@@ -28,27 +29,48 @@ namespace RezervacijaSmjestaja.Controllers
                 Smjestaj = smjestaj
             };
 
-            Console.WriteLine("Vraćam View sa podacima.");
-            return View(model); 
+            return View(model);
         }
 
+        [HttpPost]
         public IActionResult PotvrdiRezervaciju(int smjestajId, DateTime datumOd, DateTime datumDo)
         {
-            var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
-            if (smjestaj == null) return NotFound();
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-            
-            bool vecRezervirano = _context.Rezervacije.Any(r => r.SmjestajId == smjestajId);
+            var korisnik = _context.Korisnici.FirstOrDefault(k => k.Email == userEmail);
+            if (korisnik == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var smjestaj = _context.Smjestaji.FirstOrDefault(s => s.Id == smjestajId);
+            if (smjestaj == null)
+            {
+                return NotFound();
+            }
+
+            // 🔹 Provjera da korisnik ne može rezervirati isti smještaj u istom terminu
+            bool vecRezervirano = _context.Rezervacije.Any(r =>
+                r.SmjestajId == smjestajId &&
+                r.KorisnikId == korisnik.Id &&
+                ((datumOd >= r.DatumOd && datumOd < r.DatumDo) ||
+                 (datumDo > r.DatumOd && datumDo <= r.DatumDo) ||
+                 (datumOd <= r.DatumOd && datumDo >= r.DatumDo)));
+
             if (vecRezervirano)
             {
-                TempData["Greska"] = "Već imate rezervaciju za ovaj smještaj.";
+                TempData["Greska"] = "Već imate rezervaciju za ovaj smještaj u odabranom terminu!";
                 return RedirectToAction("Rezerviraj", new { smjestajId });
             }
 
             var rezervacija = new Rezervacija
             {
                 SmjestajId = smjestajId,
-                Smjestaj = smjestaj,
+                KorisnikId = korisnik.Id, // Vežemo rezervaciju za korisnika
                 DatumOd = datumOd,
                 DatumDo = datumDo
             };
@@ -59,11 +81,25 @@ namespace RezervacijaSmjestaja.Controllers
             return RedirectToAction("MojeRezervacije");
         }
 
-
-
         public IActionResult MojeRezervacije()
         {
-            var rezervacije = _context.Rezervacije.Include(r => r.Smjestaj).ToList();
+            var userEmail = HttpContext.Session.GetString("UserEmail");
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var korisnik = _context.Korisnici.FirstOrDefault(k => k.Email == userEmail);
+            if (korisnik == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var rezervacije = _context.Rezervacije
+                .Include(r => r.Smjestaj)
+                .Where(r => r.KorisnikId == korisnik.Id) // Filtriramo samo rezervacije prijavljenog korisnika
+                .ToList();
+
             return View(rezervacije);
         }
 
@@ -89,6 +125,5 @@ namespace RezervacijaSmjestaja.Controllers
             }
             return RedirectToAction("MojeRezervacije");
         }
-
     }
 }
