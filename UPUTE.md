@@ -1,0 +1,1 @@
+Potrebno je promjeniti connection stringu u appsettingsu na svoju bazu, te kad se digne aplikacija, potrebno je prvo regitirati korisnika i nakon tog ulogirati kako bi se moglo doc na glavnu stranicu, jer bez logina ne pušta na stranicu
